@@ -1,0 +1,109 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+ 
+    <!-- Artifact details -->
+	<groupId>com.db.volcker.sdlc</groupId>
+	<artifactId>tc-client</artifactId> 	
+	<version>0.0.9</version>
+	
+	<!-- Properties -->
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<scm-url>https://www.dbcde.com/svn/repos/volcker-source-repository/sdlc/tc-client/trunk</scm-url>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+	</properties>
+
+	<!-- SCM details -->
+	<scm>
+		<connection>scm:svn:${scm-url}</connection>
+		<developerConnection>scm:svn:${scm-url}</developerConnection>
+		<url>${scm-url}</url>
+	</scm>
+	
+	<!-- Distro management -->
+	<distributionManagement>
+        <repository>
+            <id>volcker.nexus.repo</id>
+            <name>Volcker Nexus Repository for Releases</name>
+            <url>http://gmrepo.gslb.db.com:8481/nexus-webapp/content/repositories/volcker-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>volcker.nexus.repo</id>
+            <uniqueVersion>false</uniqueVersion>
+            <name>Volcker Nexus Repository for Snapshots</name>
+            <url>http://gmrepo.gslb.db.com:8481/nexus-webapp/content/repositories/volcker-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+    
+    <!-- Dependencies -->
+    <dependencies>
+        <!-- Jersey dependencies -->
+	    <dependency>
+	        <groupId>com.sun.jersey</groupId>
+	        <artifactId>jersey-client</artifactId>
+	        <version>1.9</version>
+	    </dependency>    
+	    <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <version>1.9</version>
+        </dependency>
+        <!-- JUnit -->
+        <dependency>
+            <groupId>org.junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.4</version>
+        </dependency>
+        <!-- jdom -->
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>2.0.2</version>
+        </dependency>
+    </dependencies>
+    
+    <build>
+      <plugins>
+        <!-- Executable JAR -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>3.0.0</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>shade</goal>
+              </goals>
+              <configuration>
+                <transformers>
+                  <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                    <mainClass>com.db.volcker.sdlc.TCClient</mainClass>
+                  </transformer>
+                </transformers>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+		<!-- Assembly plugin -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <configuration>
+			<descriptor>assembly/tcclient_assembly.xml</descriptor>
+		  </configuration>
+		  <executions>
+			<execution>
+				<phase>package</phase>
+				<goals>
+					<goal>single</goal>
+				</goals>
+			</execution>
+		  </executions>
+        </plugin>
+      </plugins>
+    </build>
+        
+</project>

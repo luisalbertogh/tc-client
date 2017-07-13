@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.db.volcker.sdlc</groupId>
+  <artifactId>tc-client</artifactId>
+  <version>0.0.9</version>
+  <scm>
+    <connection>scm:svn:${scm-url}</connection>
+    <developerConnection>scm:svn:${scm-url}</developerConnection>
+    <url>${scm-url}</url>
+  </scm>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <transformers>
+                <transformer>
+                  <mainClass>com.db.volcker.sdlc.TCClient</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <descriptor>assembly/tcclient_assembly.xml</descriptor>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <distributionManagement>
+    <repository>
+      <id>volcker.nexus.repo</id>
+      <name>Volcker Nexus Repository for Releases</name>
+      <url>http://gmrepo.gslb.db.com:8481/nexus-webapp/content/repositories/volcker-releases</url>
+    </repository>
+    <snapshotRepository>
+      <uniqueVersion>false</uniqueVersion>
+      <id>volcker.nexus.repo</id>
+      <name>Volcker Nexus Repository for Snapshots</name>
+      <url>http://gmrepo.gslb.db.com:8481/nexus-webapp/content/repositories/volcker-snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+  <properties>
+    <scm-url>https://www.dbcde.com/svn/repos/volcker-source-repository/sdlc/tc-client/trunk</scm-url>
+    <java.version>1.8</java.version>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.target>1.7</maven.compiler.target>
+  </properties>
+</project>
+
